@@ -1,7 +1,7 @@
 node {
 	
 	stage('Download latest twistcli') {
-          	sh('chmod +x files/download_twistcli.sh && ./files/download_twistcli.sh')
+          	sh('chmod +x ./files/download_twistcli.sh && ./files/download_twistcli.sh')
     	}
     
     	stage('Clone repository') {
