@@ -7,8 +7,8 @@ node {
           	sh('chmod +x ./files/download_twistcli.sh && ./files/download_twistcli.sh')
     	}
     
-    	stage('Check Applicstion Code dependencies have no vulnerabilities') {
-        	sh('chmod +x files/repoScan.sh && ./files/reposcan.sh')
+    	stage('Check Application Code dependencies have no vulnerabilities') {
+        	sh('chmod +x files/repoScan.sh && ./files/repoSßcan.sh')
     	}
 
     	stage('Apply security policies (Policy-as-Code) for evilpetclinic') {
