@@ -8,11 +8,11 @@ node {
     	}
     
     	stage('Check Application Code dependencies have no vulnerabilities') {
-        	sh('chmod +x files/repoScan.sh && ./files/repoScan.sh')
+        	sh('chmod +x ./files/repoScan.sh && ./files/repoScan.sh')
     	}
 
     	stage('Apply security policies (Policy-as-Code) for evilpetclinic') {
-        	sh('chmod +x files/addPolicies.sh && ./files/addPolicies.sh')
+        	sh('chmod +x ./files/addPolicies.sh && ./files/addPolicies.sh')
     	}
 
     	stage('Scan image with twistcli and Publish results to Jenkins') {
@@ -40,11 +40,11 @@ node {
     	}
 
     	stage('Run Runtime attacks') {
-        	sh('chmod +x files/runtime_attacks.sh && ./files/runtime_attacks.sh')
+        	sh('chmod +x ./files/runtime_attacks.sh && ./files/runtime_attacks.sh')
     	}
 
     	stage('Run WAAS attacks') {
-        	sh('chmod +x files/waas_attacks.sh && ./files/waas_attacks.sh')
+        	sh('chmod +x ./files/waas_attacks.sh && ./files/waas_attacks.sh')
     	}
 	
 }
