@@ -1,13 +1,12 @@
 node {
+	stage('Clone repository') {
+        	checkout scm
+    	}
 	
 	stage('Download latest twistcli') {
           	sh('chmod +x ./files/download_twistcli.sh && ./files/download_twistcli.sh')
     	}
     
-    	stage('Clone repository') {
-        	checkout scm
-    	}
-
     	stage('Check Applicstion Code dependencies have no vulnerabilities') {
         	sh('chmod +x files/repoScan.sh && ./files/reposcan.sh')
     	}
