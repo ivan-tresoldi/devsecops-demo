@@ -8,7 +8,7 @@ node {
     	}
     
     	stage('Check Application Code dependencies have no vulnerabilities') {
-        	sh('chmod +x files/repoScan.sh && ./files/repoSßcan.sh')
+        	sh('chmod +x files/repoScan.sh && ./files/repoScan.sh')
     	}
 
     	stage('Apply security policies (Policy-as-Code) for evilpetclinic') {
