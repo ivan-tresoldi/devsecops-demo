@@ -17,9 +17,9 @@ node {
 
     	stage('Scan image with twistcli and Publish results to Jenkins') {
       	try {
-		sh 'sudo podman pull itresoldi/evilpetclinic:latest'  
+		sh 'docker pull itresoldi/evilpetclinic:latest'  
             	withCredentials([usernamePassword(credentialsId: 'twistlock_creds', passwordVariable: 'TL_PASS', usernameVariable: 'TL_USER')]) {
-            	prismaCloudScanImage ca: '', cert: '', dockerAddress: '', ignoreImageBuildTime: true, image: 'itresoldi/evilpetclinic:latest', key: '', logLevel: 'debug', podmanPath: '/usr/bin/podman', project: '', resultsFile: 'prisma-cloud-scan-results.json'
+            	prismaCloudScanImage ca: '', cert: '', dockerAddress: '', ignoreImageBuildTime: true, image: 'itresoldi/evilpetclinic:latest', key: '', logLevel: 'debug', project: '', resultsFile: 'prisma-cloud-scan-results.json'
             	}
 	    } finally {
             	prismaCloudPublish resultsFilePattern: 'prisma-cloud-scan-results.json'
