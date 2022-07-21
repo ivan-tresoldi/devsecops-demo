@@ -32,7 +32,7 @@ node {
     //}
 
     	stage('Deploy evilpetclinic') {
-        	sh 'sudo kubectl apply -f files/deploy.yml -n evil'
+        	sh 'kubectl apply -f files/deploy.yml -n evil'
         	sh 'sleep 10'
     	}
 
