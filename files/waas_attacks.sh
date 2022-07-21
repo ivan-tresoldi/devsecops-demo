@@ -1,15 +1,13 @@
 #!/bin/bash -l
 
-export KUBECONFIG=/var/www/html/kubeconfig
-
 CHECKSVC=$(kubectl get svc -n evil|grep evil)
 if [[ $CHECKSVC == *"No resources found"* ]]; then
-   echo "nada"
+   echo "No Resources Found"
 else
    kubectl delete svc evilpetclinic -n evil
 fi
 
-kubectl expose deploy evilpetclinic -n evil --port=80 --target-port=8080
+kubectl expose deploy evilpetclinic -n evil
 SVC=$(kubectl get svc -n evil|grep evil| awk '{ print $3 }')
 
 echo "testing SQLi attack"
