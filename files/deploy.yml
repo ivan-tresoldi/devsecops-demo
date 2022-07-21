@@ -1,19 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Namespace
+metadata:
+  name: evil
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
     app: evilpetclinic
   name: evilpetclinic
+  namespace: evil
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: evilpetclinic
-  strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: evilpetclinic
     spec:
@@ -21,7 +25,6 @@ spec:
       - image: itresoldi/evilpetclinic:latest
         name: evilpetclinic
         imagePullPolicy: IfNotPresent
-        resources: {}
         securityContext:
           privileged: true
         ports:
@@ -33,5 +36,3 @@ spec:
       securityContext:
         runAsUser: 0
       hostNetwork: false
-
-status: {}
