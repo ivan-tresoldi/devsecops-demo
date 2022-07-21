@@ -16,7 +16,7 @@ node {
     	}
 	
 	stage('Scan Container Image for Vulnerabilities and Non-Compliances') {
-        	sh('chmod +x ./files/addPolicies.sh && ./files/addPolicies.sh')
+        	sh('chmod +x ./files/scanImage.sh && ./files/scanImage.sh')
     	}
 
     	//stage('Scan image with twistcli and Publish results to Jenkins') {
@@ -32,9 +32,7 @@ node {
     //}
 
     	stage('Deploy evilpetclinic') {
-       		sh 'kubectl create ns evil --dry-run -o yaml | kubectl apply -f -'
-        	sh 'kubectl delete --ignore-not-found=true -f files/deploy.yml -n evil'
-        	sh 'kubectl apply -f files/deploy.yml -n evil'
+        	sh 'sudo kubectl apply -f files/deploy.yml -n evil'
         	sh 'sleep 10'
     	}
 
