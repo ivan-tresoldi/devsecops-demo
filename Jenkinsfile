@@ -18,6 +18,10 @@ node {
 	stage('Scan Container Image for Vulnerabilities and Non-Compliances') {
         	sh('chmod +x ./files/scanImage.sh && ./files/scanImage.sh')
     	}
+	
+	stage('Runtime Container Image Scanning') {
+        	sh('chmod +x ./files/sandboxscan.sh && ./files/sandboxscan.sh')
+    	}
 
     	//stage('Scan image with twistcli and Publish results to Jenkins') {
 	//	sh 'sudo docker pull itresoldi/evilpetclinic:latest'  
@@ -25,11 +29,11 @@ node {
         //    	prismaCloudPublish resultsFilePattern: 'prisma-cloud-scan-results.json'
     	//}
 		
-    //stage('Scan K8s yaml manifest with Bridgecrew/checkov') {
-	  //  withDockerContainer(image: 'bridgecrew/jenkins_bridgecrew_runner:latest') {              
-	  //  sh "/run.sh aaba9c95-c632-5403-9762-24bbcd0a4611 https://github.com/ivan-tresoldi/shiftleftdemo"
-	  //  }
-    //}
+        stage('Scan K8s yaml manifest with Bridgecrew/checkov') {
+		withDockerContainer(image: 'bridgecrew/jenkins_bridgecrew_runner:latest') {              
+	  	  sh "/run.sh aaba9c95-c632-5403-9762-24bbcd0a4611 https://github.com/ivan-tresoldi/devsecops-demo"
+	        }
+        }
 
     	stage('Deploy evilpetclinic') {
         	sh 'kubectl apply -f files/deploy.yml'
