@@ -39,3 +39,19 @@ spec:
       securityContext:
         runAsUser: 0
       hostNetwork: false
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: evilpetclinic-svc
+  namespace: evil
+spec:
+  type: NodePort
+  selector:
+    app: evilpetclinic
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30007
