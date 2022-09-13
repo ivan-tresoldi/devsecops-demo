@@ -44,16 +44,16 @@ node {
     //    }
     //}
 
-    stage('Deploy evilpetclinic') {
-        	sh 'kubectl apply -f files/deploy.yml'
-        	sh 'sleep 10'
+    stage('Deploy Application') {
+        //	sh 'kubectl apply -f files/deploy.yml'
+        //	sh 'sleep 10'
     }
 
     stage('Run Runtime attacks') {
-        	sh('chmod +x ./files/runtime_attacks.sh && ./files/runtime_attacks.sh')
+        //	sh('chmod +x ./files/runtime_attacks.sh && ./files/runtime_attacks.sh')
     }
 
     stage('Run WAAS attacks') {
-        	sh('chmod +x ./files/waas_attacks.sh && ./files/waas_attacks.sh')
+        //	sh('chmod +x ./files/waas_attacks.sh && ./files/waas_attacks.sh')
     }
 }
