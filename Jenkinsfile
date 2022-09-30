@@ -15,20 +15,15 @@ node {
         	sh('chmod +x ./files/addPolicies.sh && ./files/addPolicies.sh')
     }
 	
-	stage('Scan Container Image for Vulnerabilities and Non-Compliances') {
-        	sh('chmod +x ./files/scanImage.sh && ./files/scanImage.sh')
-    }
-	
-	stage('Runtime Container Image Scanning') {
+    stage('Scan image with twistcli and Publish results to Jenkins') {
+		sh 'sudo docker pull itresoldi/evilpetclinic:latest'  
+           	prismaCloudScanImage ca: '', cert: '', dockerAddress: '', ignoreImageBuildTime: true, image: 'itresoldi/evilpetclinic:latest', key: '', logLevel: 'debug', project: '', resultsFile: 'prisma-cloud-scan-results.json'
+            prismaCloudPublish resultsFilePattern: 'prisma-cloud-scan-results.json'
+    	}
+
+    stage('Runtime Container Image Scanning') {
         	sh('chmod +x ./files/sandboxscan.sh && ./files/sandboxscan.sh')
     }
-
-    	//stage('Scan image with twistcli and Publish results to Jenkins') {
-	//	sh 'sudo docker pull itresoldi/evilpetclinic:latest'  
-        //   	prismaCloudScanImage ca: '', cert: '', dockerAddress: '', ignoreImageBuildTime: true, image: 'itresoldi/evilpetclinic:latest', key: '', logLevel: 'debug', project: '', resultsFile: 'prisma-cloud-scan-results.json'
-        //    	prismaCloudPublish resultsFilePattern: 'prisma-cloud-scan-results.json'
-    	//}
-		
     
     //stage('Code Security Scanning') {
 	//	docker {
