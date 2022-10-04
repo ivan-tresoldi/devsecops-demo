@@ -25,15 +25,8 @@ node {
         	sh('chmod +x ./files/sandboxscan.sh && ./files/sandboxscan.sh')
     }
     
-    pipeline {
-    agent {
-        docker {
-            image 'kennethreitz/pipenv:latest'
-            args '-u root --privileged -v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
-    stages {
-        stage('test') {
+    
+    stage('test') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/ivan-tresoldi/devsecops-demo']]])
                 script { 
@@ -44,12 +37,7 @@ node {
                 }
             }
         }
-    }
-    options {
-        preserveStashes()
-        timestamps()
-    }
-}
+
 
     stage('Deploy Application') {
         //	sh 'kubectl apply -f files/deploy.yml'
