@@ -25,19 +25,31 @@ node {
         	sh('chmod +x ./files/sandboxscan.sh && ./files/sandboxscan.sh')
     }
     
-    //stage('Code Security Scanning') {
-	//	docker {
-    //    image 'kennethreitz/pipenv:latest'
-    //    args '-u root --privileged -v /var/run/docker.sock:/var/run/docker.sock'
-    //    }
-    //    checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/ivan-tresoldi/devsecops-demo.git']]])
-    //    script { 
-    //            sh """export PRISMA_API_URL=https://api.prismacloud.io
-    //            pipenv install
-    //            pipenv run pip install bridgecrew
-    //            pipenv run bridgecrew --directory . --bc-api-key PRISMA_ACCESS_KEY::PRISMA_SECRET_KEY --repo-id ivan-tresoldi/devsecops-demo"""
-    //    }
-    //}
+    pipeline {
+    agent {
+        docker {
+            image 'kennethreitz/pipenv:latest'
+            args '-u root --privileged -v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
+    stages {
+        stage('test') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/ivan-tresoldi/devsecops-demo']]])
+                script { 
+                    sh """export PRISMA_API_URL=https://api.prismacloud.io
+                    pipenv install
+                    pipenv run pip install bridgecrew
+                    pipenv run bridgecrew --directory ./files --bc-api-key PRISMA_ACCESS_KEY::PRISMA_SECRET_KEY --repo-id ivan-tresoldi/devsecops-demo"""
+                }
+            }
+        }
+    }
+    options {
+        preserveStashes()
+        timestamps()
+    }
+}
 
     stage('Deploy Application') {
         //	sh 'kubectl apply -f files/deploy.yml'
