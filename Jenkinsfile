@@ -22,7 +22,7 @@ node {
     	}
 
     stage('Runtime Container Image Scanning') {
-        	sh('chmod +x ./files/sandboxscan.sh && ./files/sandboxscan.sh')
+        	//sh('chmod +x ./files/sandboxscan.sh && ./files/sandboxscan.sh')
     }
     
     
@@ -40,15 +40,15 @@ node {
 
 
     stage('Deploy Application') {
-        //	sh 'kubectl apply -f files/deploy.yml'
-        //	sh 'sleep 10'
+        	sh 'kubectl apply -f files/deploy.yml'
+        	sh 'sleep 10'
     }
 
     stage('Run Runtime attacks') {
-        //	sh('chmod +x ./files/runtime_attacks.sh && ./files/runtime_attacks.sh')
+        	sh('chmod +x ./files/runtime_attacks.sh && ./files/runtime_attacks.sh')
     }
 
     stage('Run WAAS attacks') {
-        //	sh('chmod +x ./files/waas_attacks.sh && ./files/waas_attacks.sh')
+        	sh('chmod +x ./files/waas_attacks.sh && ./files/waas_attacks.sh')
     }
 }
