@@ -26,13 +26,13 @@ node {
     }
     
     
-    stage('test') {
-                script { 
-                    sh """export PRISMA_API_URL=https://api.prismacloud.io
-                    pipenv install
-                    pipenv run pip install bridgecrew
-                    pipenv run bridgecrew --directory ./files --bc-api-key PRISMA_ACCESS_KEY::PRISMA_SECRET_KEY --repo-id ivan-tresoldi/devsecops-demo"""
-                }
+    stage('Code Security Scanning') {
+                //script { 
+                //    sh """export PRISMA_API_URL=https://api.prismacloud.io
+                //    pipenv install
+                //    pipenv run pip install bridgecrew
+                //    pipenv run bridgecrew --directory ./files --bc-api-key PRISMA_ACCESS_KEY::PRISMA_SECRET_KEY --repo-id ivan-tresoldi/devsecops-demo"""
+                //}
         }
 
 
