@@ -27,8 +27,7 @@ node {
     
     
     stage('Code Security Scanning') {
-        withDockerContainer(image: 'kennethreitz/pipenv:latest'
-                             args '-u root --privileged -v /var/run/docker.sock:/var/run/docker.sock') {              
+        withDockerContainer(image: 'kennethreitz/pipenv:latest') {              
         }
         script { 
                 sh """export PRISMA_API_URL=https://api.prismacloud.io
