@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('test') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: 'master']], userRemoteConfigs: [[url: 'https://github.com/ivan-tresoldi/devsecops-demo.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/ivan-tresoldi/devsecops-demo.git']]])
                 script { 
                     sh """export PRISMA_API_URL=https://api.prismacloud.io
                     pipenv install
