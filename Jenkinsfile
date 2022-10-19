@@ -27,21 +27,17 @@ node {
     
     
     stage('Code Security Scanning') {
-        agent {
-        docker {
-            image 'kennethreitz/pipenv:latest'
-            args '-u root --privileged -v /var/run/docker.sock:/var/run/docker.sock'
+        withDockerContainer(image: 'kennethreitz/pipenv:latest'
+                             args '-u root --privileged -v /var/run/docker.sock:/var/run/docker.sock') {              
         }
-                script { 
-                    sh """export PRISMA_API_URL=https://api.prismacloud.io
-                    pipenv install
-                    pipenv run pip install bridgecrew
-                    pipenv run bridgecrew --directory ./files --bc-api-key PRISMA_ACCESS_KEY::PRISMA_SECRET_KEY --repo-id ivan-tresoldi/devsecops-demo"""
-                }
-        }
+        script { 
+                sh """export PRISMA_API_URL=https://api.prismacloud.io
+                pipenv install
+                pipenv run pip install bridgecrew
+                pipenv run bridgecrew --directory . --bc-api-key PRISMA_ACCESS_KEY::PRISMA_SECRET_KEY --repo-id ivan-tresoldi/devsecops-demo"""
+            }
     }
-
-
+    
     stage('Deploy Application') {
         	sh 'kubectl apply -f files/deploy.yml'
         	sh 'sleep 10'
