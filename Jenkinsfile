@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Checkov') {
             steps {
-                withCredentials([string(credentialsId: 'PC_USER', variable: 'pc_user'),string(credentialsId: 'PC_PASSWORD', variable: 'pc_password')]) {
+                withCredentials([string(credentialsId: 'PRISMA_ACCESS_KEY', variable: 'pc_user'),string(credentialsId: 'PRISMA_SECRET_KEY', variable: 'pc_password')]) {
                     script {
                         docker.image('bridgecrew/checkov:latest').inside("--entrypoint=''") {
                           unstash 'terragoat'
