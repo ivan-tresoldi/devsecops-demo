@@ -1,18 +1,38 @@
 pipeline {
-    agent {
-        docker {
-            image 'bridgecrew/checkov'
-        }
+    agent any
+    
+    environment {
+        PRISMA_API_URL='https://api.prismacloud.io'
     }
+    
     stages {
-        stage('test') {
+        stage('Checkout') {
+          steps {
+              git branch: 'master', url: 'https://github.com/bridgecrewio/terragoat'
+              stash includes: '**/*', name: 'terragoat'
+          }
+        }
+        stage('Checkov') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/ivan-tresoldi/devsecops-demo.git']]])
-                script { 
-                    sh "checkov -v"
-                    // --prisma-api-url PRISMA_API_URL --bc-api-key PRISMA_ACCESS_KEY::PRISMA_SECRET_KEY --repo-id ivan-tresoldi/devsecops-demo"
+                withCredentials([string(credentialsId: 'PC_USER', variable: 'pc_user'),string(credentialsId: 'PC_PASSWORD', variable: 'pc_password')]) {
+                    script {
+                        docker.image('bridgecrew/checkov:latest').inside("--entrypoint=''") {
+                          unstash 'terragoat'
+                          try {
+                              sh 'checkov -d . --use-enforcement-rules -o cli -o junitxml --output-file-path console,results.xml --bc-api-key ${pc_user}::${pc_password} --repo-id taysmith/terragoat --branch master'
+                              junit skipPublishingChecks: true, testResults: 'results.xml'
+                          } catch (err) {
+                              junit skipPublishingChecks: true, testResults: 'results.xml'
+                              throw err
+                          }
+                        }
+                    }
                 }
             }
         }
+    }
+    options {
+        preserveStashes()
+        timestamps()
     }
 }
