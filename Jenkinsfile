@@ -31,8 +31,4 @@ pipeline {
             }
         }
     }
-    options {
-        preserveStashes()
-        timestamps()
-    }
 }
